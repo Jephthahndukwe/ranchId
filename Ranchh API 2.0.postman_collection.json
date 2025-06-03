@@ -1,0 +1,1058 @@
+{
+	"info": {
+		"_postman_id": "29c64886-cbd8-4641-b334-346f3896455b",
+		"name": "Ranch API 2.0",
+		"description": "Complete API documentation for Ranch API 2.0\n\n## Authentication\nFor protected routes, add the header:\n```\nAuthorization: Bearer {your_token}\n```\n\n## Error Handling\nThe API uses standard HTTP status codes:\n- 200: Success\n- 201: Created\n- 400: Bad Request\n- 401: Unauthorized\n- 403: Forbidden\n- 404: Not Found\n- 422: Validation Error\n- 500: Server Error\n\nError responses follow this structure:\n```json\n{\n    \"message\": \"Error message\",\n    \"errors\": {\n        \"field\": [\"Error description\"]\n    }\n}\n```\n\n## Rate Limiting\nHeaders include:\n- X-RateLimit-Limit: Maximum requests per window\n- X-RateLimit-Remaining: Remaining requests in current window\n- X-RateLimit-Reset: Time when the rate limit resets",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15598930"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"password\": \"secure_password\",\n    \"password_confirmation\": \"secure_password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/api/register",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"register"
+							]
+						},
+						"description": "Register a new user\n\nResponse (201):\n```json\n{\n    \"message\": \"Registration successful\",\n    \"user\": {\n        \"id\": 1,\n        \"name\": \"John Doe\",\n        \"email\": \"john@example.com\",\n        \"created_at\": \"2025-02-08T18:21:12.000000Z\",\n        \"updated_at\": \"2025-02-08T18:21:12.000000Z\"\n    },\n    \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...\"\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"john@example.com\",\n    \"password\": \"secure_password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/api/auth",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"auth"
+							]
+						},
+						"description": "Authenticate user and get token\n\nResponse (200):\n```json\n{\n    \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...\",\n    \"user\": {\n        \"id\": 1,\n        \"name\": \"John Doe\",\n        \"email\": \"john@example.com\"\n    }\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"current_password\": \"old_password\",\n    \"new_password\": \"new_password\",\n    \"new_password_confirmation\": \"new_password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/api/auth/change_password",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"change_password"
+							]
+						},
+						"description": "Change user password (Protected Route)\n\nResponse (200):\n```json\n{\n    \"message\": \"Password changed successfully\"\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base}}/api/logout",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"logout"
+							]
+						},
+						"description": "Logout user (Protected Route)\n\nResponse (200):\n```json\n{\n    \"message\": \"Logged out successfully\"\n}\n```"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "System",
+			"item": [
+				{
+					"name": "Test Route",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/test",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"test"
+							]
+						},
+						"description": "Test if API is working\n\nResponse (200):\n```json\n{\n    \"message\": \"API is working\"\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Cache",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/reset-cache",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"reset-cache"
+							]
+						},
+						"description": "Clear application cache\n\nResponse (200):\n```json\n{\n    \"message\": \"Cache cleared successfully\"\n}\n```"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API Keys",
+			"item": [
+				{
+					"name": "List API Keys",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/key?status=active&sort=created_at&order=desc&per_page=10&page=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"key"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "active",
+									"description": "Filter by status (active, inactive)"
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Sort field (created_at, name)"
+								},
+								{
+									"key": "order",
+									"value": "desc",
+									"description": "Sort order (asc, desc)"
+								},
+								{
+									"key": "per_page",
+									"value": "10",
+									"description": "Number of items per page"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number"
+								}
+							]
+						},
+						"description": "Get all API keys (Protected Route)\n\nQuery Parameters:\n- status: Filter by status (active, inactive)\n- sort: Field to sort by (created_at, name)\n- order: Sort order (asc, desc)\n- per_page: Number of items per page (default: 10)\n- page: Page number (default: 1)\n\nResponse (200):\n```json\n{\n    \"keys\": [\n        {\n            \"id\": 1,\n            \"key\": \"ak_1234567890\",\n            \"name\": \"My API Key\",\n            \"status\": \"active\",\n            \"expiration\": \"2026-02-08\",\n            \"created_at\": \"2025-02-08T18:24:35.000000Z\"\n        }\n    ],\n    \"meta\": {\n        \"current_page\": 1,\n        \"per_page\": 10,\n        \"total\": 1\n    }\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Create API Key",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"My API Key\",\n    \"expiration\": \"2026-02-08\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/api/key",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"key"
+							]
+						},
+						"description": "Create new API key (Protected Route)\n\nResponse (201):\n```json\n{\n    \"key\": \"ak_1234567890\",\n    \"name\": \"My API Key\",\n    \"expiration\": \"2026-02-08\"\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Show Trashed Keys",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/key/trash",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"key",
+								"trash"
+							]
+						},
+						"description": "View deleted API keys\n\nResponse (200):\n```json\n{\n    \"keys\": [\n        {\n            \"id\": 1,\n            \"key\": \"ak_1234567890\",\n            \"name\": \"My API Key\",\n            \"expiration\": \"2026-02-08\"\n        }\n    ]\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Show API Key",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/key/:id",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"key",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "API Key ID"
+								}
+							]
+						},
+						"description": "View specific API key details\n\nResponse (200):\n```json\n{\n    \"key\": {\n        \"id\": 1,\n        \"key\": \"ak_1234567890\",\n        \"name\": \"My API Key\",\n        \"expiration\": \"2026-02-08\"\n    }\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete API Key",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/key/:key",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"key",
+								":key"
+							],
+							"variable": [
+								{
+									"key": "key",
+									"value": "ak_1234567890",
+									"description": "API Key"
+								}
+							]
+						},
+						"description": "Delete an API key\n\nResponse (200):\n```json\n{\n    \"message\": \"API key deleted successfully\"\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Activate API Key",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/api/key/:key/activate",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"key",
+								":key",
+								"activate"
+							],
+							"variable": [
+								{
+									"key": "key",
+									"value": "ak_1234567890",
+									"description": "API Key"
+								}
+							]
+						},
+						"description": "Activate an API key\n\nResponse (200):\n```json\n{\n    \"message\": \"API key activated successfully\"\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate API Key",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/key/:key/deactivate",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"key",
+								":key",
+								"deactivate"
+							],
+							"variable": [
+								{
+									"key": "key",
+									"value": "ak_1234567890",
+									"description": "API Key"
+								}
+							]
+						},
+						"description": "Deactivate an API key\n\nResponse (200):\n```json\n{\n    \"message\": \"API key deactivated successfully\"\n}\n```"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Location Management",
+			"item": [
+				{
+					"name": "Get Countries",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/countries?include=states&sort=name&order=asc&per_page=10&page=1&search=Country",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"countries"
+							],
+							"query": [
+								{
+									"key": "include",
+									"value": "states",
+									"description": "Include related data (states)"
+								},
+								{
+									"key": "sort",
+									"value": "name",
+									"description": "Sort field (name)"
+								},
+								{
+									"key": "order",
+									"value": "asc",
+									"description": "Sort order (asc, desc)"
+								},
+								{
+									"key": "per_page",
+									"value": "10",
+									"description": "Number of items per page"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number"
+								},
+								{
+									"key": "search",
+									"value": "Country",
+									"description": "Search term for filtering countries"
+								}
+							]
+						},
+						"description": "Get list of all countries\n\nQuery Parameters:\n- include: Comma-separated list of relations to include (states)\n- sort: Field to sort by (name)\n- order: Sort order (asc, desc)\n- per_page: Number of items per page (default: 10)\n- page: Page number (default: 1)\n- search: Search term for filtering countries\n\nResponse (200):\n```json\n{\n    \"countries\": [\n        {\n            \"id\": 1,\n            \"name\": \"Country A\",\n            \"states\": [\n                {\n                    \"id\": 1,\n                    \"name\": \"State A\"\n                }\n            ]\n        }\n    ],\n    \"meta\": {\n        \"current_page\": 1,\n        \"per_page\": 10,\n        \"total\": 1\n    }\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Country by Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/country/:name",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"country",
+								":name"
+							],
+							"variable": [
+								{
+									"key": "name",
+									"value": "Country A",
+									"description": "Country name"
+								}
+							]
+						},
+						"description": "Get country details by name\n\nResponse (200):\n```json\n{\n    \"country\": {\n        \"id\": 1,\n        \"name\": \"Country A\"\n    }\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Country by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/country/id/:id",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"country",
+								"id",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Country ID"
+								}
+							]
+						},
+						"description": "Get country details by ID\n\nResponse (200):\n```json\n{\n    \"country\": {\n        \"id\": 1,\n        \"name\": \"Country A\"\n    }\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Get State Locals",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/state_locals?include=locals&per_page=10&page=1&search=State",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"state_locals"
+							],
+							"query": [
+								{
+									"key": "include",
+									"value": "locals",
+									"description": "Include related data (locals)"
+								},
+								{
+									"key": "per_page",
+									"value": "10",
+									"description": "Number of items per page"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number"
+								},
+								{
+									"key": "search",
+									"value": "State",
+									"description": "Search term for filtering states"
+								}
+							]
+						},
+						"description": "Get all state locals (Protected Route)\n\nQuery Parameters:\n- include: Comma-separated list of relations to include (locals)\n- per_page: Number of items per page (default: 10)\n- page: Page number (default: 1)\n- search: Search term for filtering states\n\nResponse (200):\n```json\n{\n    \"states\": [\n        {\n            \"id\": 1,\n            \"name\": \"State A\",\n            \"locals\": [\n                {\n                    \"id\": 1,\n                    \"name\": \"Local A\"\n                }\n            ]\n        }\n    ],\n    \"meta\": {\n        \"current_page\": 1,\n        \"per_page\": 10,\n        \"total\": 1\n    }\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Get State Locations",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/state/:state_id/locations?include=locals&per_page=10&page=1&search=Location",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"state",
+								":state_id",
+								"locations"
+							],
+							"query": [
+								{
+									"key": "include",
+									"value": "locals",
+									"description": "Include related data (locals)"
+								},
+								{
+									"key": "per_page",
+									"value": "10",
+									"description": "Number of items per page"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number"
+								},
+								{
+									"key": "search",
+									"value": "Location",
+									"description": "Search term for filtering locations"
+								}
+							],
+							"variable": [
+								{
+									"key": "state_id",
+									"value": "1",
+									"description": "State ID"
+								}
+							]
+						},
+						"description": "Get registered locations in a state (Protected Route)\n\nQuery Parameters:\n- include: Comma-separated list of relations to include (locals)\n- per_page: Number of items per page (default: 10)\n- page: Page number (default: 1)\n- search: Search term for filtering locations\n\nResponse (200):\n```json\n{\n    \"locations\": [\n        {\n            \"id\": 1,\n            \"name\": \"Location A\",\n            \"locals\": [\n                {\n                    \"id\": 1,\n                    \"name\": \"Local A\"\n                }\n            ]\n        }\n    ],\n    \"meta\": {\n        \"current_page\": 1,\n        \"per_page\": 10,\n        \"total\": 1\n    }\n}\n```"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Enumerator",
+			"item": [
+				{
+					"name": "Tag Livestock",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tag_id\": \"TAG123\",\n    \"animal_type\": \"cattle\",\n    \"breed\": \"Holstein\",\n    \"sex\": \"female\",\n    \"age\": 3,\n    \"owner_id\": 1,\n    \"location_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/api/enumerator/tag_livestock",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"enumerator",
+								"tag_livestock"
+							]
+						},
+						"description": "Tag new livestock (Protected Route)\n\nResponse (201):\n```json\n{\n    \"message\": \"Livestock tagged successfully\",\n    \"livestock\": {\n        \"id\": 1,\n        \"tag_id\": \"TAG123\",\n        \"animal_type\": \"cattle\",\n        \"breed\": \"Holstein\",\n        \"sex\": \"female\",\n        \"age\": 3,\n        \"owner\": {\n            \"id\": 1,\n            \"name\": \"John Doe\"\n        },\n        \"location\": {\n            \"id\": 1,\n            \"name\": \"Farm A\"\n        }\n    }\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Livestock",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/enumerator/get_livestock/:tag_id?include=owner,location&status=active",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"enumerator",
+								"get_livestock",
+								":tag_id"
+							],
+							"query": [
+								{
+									"key": "include",
+									"value": "owner,location",
+									"description": "Include related data (owner, location)"
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"description": "Filter by status (active, inactive)"
+								}
+							],
+							"variable": [
+								{
+									"key": "tag_id",
+									"value": "TAG123",
+									"description": "Livestock tag ID"
+								}
+							]
+						},
+						"description": "Get livestock details (Protected Route)\n\nQuery Parameters:\n- include: Comma-separated list of relations to include (owner, location)\n- status: Filter by status (active, inactive)\n\nResponse (200):\n```json\n{\n    \"livestock\": {\n        \"id\": 1,\n        \"tag_id\": \"TAG123\",\n        \"animal_type\": \"cattle\",\n        \"breed\": \"Holstein\",\n        \"sex\": \"female\",\n        \"age\": 3,\n        \"status\": \"active\",\n        \"owner\": {\n            \"id\": 1,\n            \"name\": \"John Doe\"\n        },\n        \"location\": {\n            \"id\": 1,\n            \"name\": \"Farm A\"\n        }\n    }\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Tag Location",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"location_id\": 1,\n    \"tag_id\": \"TAG123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/api/enumerator/add_tag_location",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"enumerator",
+								"add_tag_location"
+							]
+						},
+						"description": "Add tagging location (Protected Route)\n\nResponse (201):\n```json\n{\n    \"message\": \"Tagging location added successfully\",\n    \"location\": {\n        \"id\": 1,\n        \"name\": \"Farm A\"\n    }\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Livestock Owners",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/enumerator/get_livestock_owners?include=livestock&sort=name&order=asc&per_page=10&page=1&search=John",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"enumerator",
+								"get_livestock_owners"
+							],
+							"query": [
+								{
+									"key": "include",
+									"value": "livestock",
+									"description": "Include related data (livestock)"
+								},
+								{
+									"key": "sort",
+									"value": "name",
+									"description": "Sort field (name)"
+								},
+								{
+									"key": "order",
+									"value": "asc",
+									"description": "Sort order (asc, desc)"
+								},
+								{
+									"key": "per_page",
+									"value": "10",
+									"description": "Number of items per page"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number"
+								},
+								{
+									"key": "search",
+									"value": "John",
+									"description": "Search term for filtering owners"
+								}
+							]
+						},
+						"description": "Get all livestock owners (Protected Route)\n\nQuery Parameters:\n- include: Comma-separated list of relations to include (livestock)\n- sort: Field to sort by (name)\n- order: Sort order (asc, desc)\n- per_page: Number of items per page (default: 10)\n- page: Page number (default: 1)\n- search: Search term for filtering owners\n\nResponse (200):\n```json\n{\n    \"owners\": [\n        {\n            \"id\": 1,\n            \"name\": \"John Doe\",\n            \"livestock\": [\n                {\n                    \"id\": 1,\n                    \"tag_id\": \"TAG123\",\n                    \"animal_type\": \"cattle\"\n                }\n            ]\n        }\n    ],\n    \"meta\": {\n        \"current_page\": 1,\n        \"per_page\": 10,\n        \"total\": 1\n    }\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Livestock Owner",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Jane Doe\",\n    \"email\": \"jane@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/api/enumerator/add_livestock_owner",
+							"path": [
+								"api",
+								"enumerator",
+								"add_livestock_owner"
+							]
+						},
+						"description": "Add new livestock owner (Protected Route)\n\nResponse (201):\n```json\n{\n    \"message\": \"Livestock owner added successfully\",\n    \"owner\": {\n        \"id\": 1,\n        \"name\": \"Jane Doe\",\n        \"email\": \"jane@example.com\"\n    }\n}\n```"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Options",
+			"item": [
+				{
+					"name": "Breeds of Cattle",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/options/option_breeds_of_cattle",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"options",
+								"option_breeds_of_cattle"
+							]
+						},
+						"description": "Get breeds of cattle options\n\nResponse (200):\n```json\n{\n    \"breeds\": [\n        {\n            \"id\": 1,\n            \"name\": \"Holstein\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Angus\"\n        }\n    ]\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Breeds of Sheep",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/options/option_breeds_of_sheep",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"options",
+								"option_breeds_of_sheep"
+							]
+						},
+						"description": "Get breeds of sheep options\n\nResponse (200):\n```json\n{\n    \"breeds\": [\n        {\n            \"id\": 1,\n            \"name\": \"Merino\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Rambouillet\"\n        }\n    ]\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Breeds of Goat",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/options/option_breeds_of_goat",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"options",
+								"option_breeds_of_goat"
+							]
+						},
+						"description": "Get breeds of goat options\n\nResponse (200):\n```json\n{\n    \"breeds\": [\n        {\n            \"id\": 1,\n            \"name\": \"Boer\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Kiko\"\n        }\n    ]\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Livestock Production Type",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/options/option_livestock_production_type",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"options",
+								"option_livestock_production_type"
+							]
+						},
+						"description": "Get livestock production type options\n\nResponse (200):\n```json\n{\n    \"production_types\": [\n        {\n            \"id\": 1,\n            \"name\": \"Meat\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Dairy\"\n        }\n    ]\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Cattle Diseases",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/options/option_cattledisease",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"options",
+								"option_cattledisease"
+							]
+						},
+						"description": "Get cattle diseases options\n\nResponse (200):\n```json\n{\n    \"diseases\": [\n        {\n            \"id\": 1,\n            \"name\": \"BVD\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"IBR\"\n        }\n    ]\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Drug Vaccine Route",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/options/drug_vaccine_route",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"options",
+								"drug_vaccine_route"
+							]
+						},
+						"description": "Get drug vaccine route options\n\nResponse (200):\n```json\n{\n    \"routes\": [\n        {\n            \"id\": 1,\n            \"name\": \"Subcutaneous\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Intramuscular\"\n        }\n    ]\n}\n```"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Data Export",
+			"item": [
+				{
+					"name": "Export Excel",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/exportexcel",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"exportexcel"
+							]
+						},
+						"description": "Export data to Excel\n\nResponse (200):\nExcel file content"
+					},
+					"response": []
+				},
+				{
+					"name": "Export JSON to CSV",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/exportJsonToCsv",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"exportJsonToCsv"
+							]
+						},
+						"description": "Export JSON data to CSV format\n\nResponse (200):\nCSV file content with appropriate headers"
+					},
+					"response": []
+				},
+				{
+					"name": "Export JSON to PDF",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/exportJsonToPdf",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"exportJsonToPdf"
+							]
+						},
+						"description": "Export JSON data to PDF format\n\nResponse (200):\nPDF file content"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Extracted CSV",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/extract/csv/:job_id",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"extract",
+								"csv",
+								":job_id"
+							],
+							"variable": [
+								{
+									"key": "job_id",
+									"value": "12345",
+									"description": "CSV Generation Job ID"
+								}
+							]
+						},
+						"description": "Get generated CSV file\n\nResponse (200):\nCSV file content"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	]
+}
