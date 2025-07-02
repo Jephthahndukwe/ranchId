@@ -70,10 +70,10 @@ export default function index() {
   return (
     <SafeAreaView className="h-full bg-[#FAF7F1]">
       <ScrollView className="px-4 my-8" >
-        <View className='flex items-center justify-center'>
+        <View className='flex items-start justify-center'>
           <Image source={images.logo} />
           <Text className='text-[#282828] text-[22px] mt-4 font-bold font-Inter'>Log In</Text>
-          <Text className='text-[#282828] text-[18px] text-center font-medium mt-4'>National Animal Identification and Traceability System</Text>
+          <Text className='text-[#282828] text-[18px] text-start font-medium mt-4'>National Animal Identification and Traceability System</Text>
         </View>
         <View className='mt-10'>
           {error ? (
@@ -110,8 +110,22 @@ export default function index() {
           <CustomButton
             title={isLoading ? "Logging in..." : "Log In"}
             handlePress={handleLogin}
+            // handlePress={() => router.push('/(auth)/tagLiveStock')}
             disabled={isLoading}
           />
+        </View>
+
+        <View className='flex-row items-center justify-center gap-4' style={{ marginTop: 20 }}>
+          <Image
+            source={images.group}
+            className='w-[98px] h-[98px]'
+          />
+          <View style={{ marginLeft: 20 }}>
+          <Image
+            source={images.Naits}
+            className='w-[98px] h-[98px]'
+          />
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

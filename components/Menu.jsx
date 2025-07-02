@@ -119,18 +119,18 @@ const Menu = ({ isOpen, onClose }) => {
                         <View className='flex-row items-center justify-start gap-4'>
                             <View className='bg-[#F9EFE0] border-[#DDD9CE] border rounded-[12px] p-5'>
                                 <Text className='text-[#000000] font-semibold text-[24px]'>
-                                    {userData?.name ? userData.name.substring(0, 2).toUpperCase() : 'AB'}
+                                    {userData?.other_names.substring(0, 1).toUpperCase() + userData?.surname.substring(0, 1).toUpperCase()}
                                 </Text>
                             </View>
                             <View className=''>
                                 <Text className='text-[#282828] text-[20px] font-semibold'>
-                                    {userData?.name || 'Ajala Bukky'}
+                                    {userData?.other_names} {userData?.surname}
                                 </Text>
                                 <Text className='text-[#555555] text-[16px] font-normal mt-1'>
-                                    {userData?.email || 'bukky@yahoo.co.uk'}
+                                    {userData?.email_address}
                                 </Text>
                                 <Text className='text-[#555555] text-[12px] font-semibold mt-1'>
-                                    Role: {userData?.role || 'ENUMERATOR'}
+                                    Role: {userData?.user_profile}
                                 </Text>
                             </View>
                         </View>

@@ -17,7 +17,6 @@
         "backgroundColor": "#ffffff"
       },
       "permissions": [
-        "android.permission.CAMERA",
         "android.permission.CAMERA"
       ],
       "package": "com.nd_jephthah.RanchID"
@@ -39,12 +38,17 @@
         }
       ],
       "expo-secure-store",
-      "expo-barcode-scanner",
       "expo-font",
       "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "1d72eeff-7933-4a7e-be10-6fdf96b0b7fb"
+      }
     }
   }
 }
