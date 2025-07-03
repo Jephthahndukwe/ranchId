@@ -115,7 +115,7 @@ export default function index() {
           />
         </View>
 
-        <View className='flex-row items-center justify-center gap-4' style={{ marginTop: 20 }}>
+        <View className='flex-row items-center justify-center gap-4' style={{ marginTop: 70 }}>
           <Image
             source={images.group}
             className='w-[98px] h-[98px]'

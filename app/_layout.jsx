@@ -61,8 +61,13 @@ export default function RootLayout() {
             headerShown: false
           }}
         />
+        <Stack.Screen
+          name='(tags)'
+          options={{
+            headerShown: false
+          }}
+        />
       </Stack>
-      {/* <StatusBar style="auto" /> */}
     </ThemeProvider>
   );
 }

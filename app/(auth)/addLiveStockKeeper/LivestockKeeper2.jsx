@@ -7,9 +7,8 @@ import CancelButton from '../../../components/CancelButton';
 import CustomButton from '../../../components/CustomButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from '@react-native-picker/picker';
-import { AntDesign, Feather } from '@expo/vector-icons';
+import { AntDesign, Feather, Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import { Camera } from 'lucide-react-native';
 
 export default function LivestockKeeper2() {
   const navigation = useNavigation();
@@ -52,7 +51,7 @@ export default function LivestockKeeper2() {
   const [otherLocation, setOtherLocation] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [image, setImage] = useState(null);
-  
+
   // Form errors state
   const [errors, setErrors] = useState({
     next_of_kin: '',
@@ -61,7 +60,7 @@ export default function LivestockKeeper2() {
     prof_id_doc: '',
     farm_location: ''
   });
-  
+
   // Location options
   const locationOptions = [
     'Lagos',
@@ -71,11 +70,11 @@ export default function LivestockKeeper2() {
     'Ibadan',
     'Other'
   ];
-  
+
   // Validate a single field
   const validateField = (name, value) => {
     let error = '';
-    
+
     if (!value) {
       error = 'This field is required';
     } else if (name === 'next_of_kin_number' && !/^\d{11}$/.test(value)) {
@@ -83,15 +82,15 @@ export default function LivestockKeeper2() {
     } else if (name === 'prof_id_doc' && !value.trim()) {
       error = 'Please enter a valid document number';
     }
-    
+
     setErrors(prev => ({
       ...prev,
       [name]: error
     }));
-    
+
     return !error;
   };
-  
+
   // Handle input change with validation
   const handleInputChange = (setter, name, value) => {
     setter(value);
@@ -99,7 +98,7 @@ export default function LivestockKeeper2() {
       validateField(name, value);
     }
   };
-  
+
   // Handle location change
   const handleLocationChange = (value) => {
     setFarmLocation(value);
@@ -112,7 +111,7 @@ export default function LivestockKeeper2() {
       setFarmLocation('');
     }
   };
-  
+
   // Handle other location input
   const handleOtherLocationChange = (value) => {
     setOtherLocation(value);
@@ -138,7 +137,7 @@ export default function LivestockKeeper2() {
       { name: 'prof_id_doc', value: prof_id_doc },
       { name: 'farm_location', value: farm_location || (showOtherLocation ? otherLocation : '') }
     ];
-    
+
     const validationResults = fields.map(field => validateField(field.name, field.value));
     return validationResults.every(valid => valid);
   };
@@ -149,7 +148,7 @@ export default function LivestockKeeper2() {
       console.log('Submission already in progress');
       return;
     }
-    
+
     // Validate all fields before submission
     const isValid = validateForm();
     console.log('Form validation result:', isValid);
@@ -158,13 +157,13 @@ export default function LivestockKeeper2() {
       setIsSubmitting(false);
       return;
     }
-    
+
     console.log('Form validation passed, proceeding with submission');
     setIsSubmitting(true);
-    
+
     let response;
     let responseData;
-    
+
     try {
       // Get token and user data
       const [token, userData] = await Promise.all([
@@ -197,7 +196,7 @@ export default function LivestockKeeper2() {
 
       // Add step 1 data first
       console.log('Adding step 1 data to formData...');
-      
+
       // Add all step 1 fields with correct API field names
       const step1Fields = {
         surname: step1Data.surname,
@@ -232,7 +231,7 @@ export default function LivestockKeeper2() {
       formData.append('prof_id_doc', prof_id_doc);
       formData.append('farm_location', farm_location || otherLocation);
       formData.append('captured_by', captured_by);
-      
+
       // Verify all required fields are present with correct field names
       const requiredFields = [
         'surname', 'other_names', 'gender', 'date_of_birth', 'phone_number',
@@ -240,15 +239,15 @@ export default function LivestockKeeper2() {
         'next_of_kin', 'next_of_kin_number', 'id_doc_type', 'prof_id_doc', 'farm_location',
         'marital_status' // Added marital_status as required
       ];
-      
+
       const missingFields = [];
-      
+
       // Log all form data entries
       console.log('--- Form Data Entries ---');
       for (const [key, value] of formData._parts) {
         console.log(`${key}:`, value);
       }
-      
+
       // Check for missing required fields
       requiredFields.forEach(field => {
         const value = formData.get(field);
@@ -258,7 +257,7 @@ export default function LivestockKeeper2() {
           missingFields.push(field);
         }
       });
-      
+
       if (missingFields.length > 0) {
         throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
       }
@@ -289,7 +288,7 @@ export default function LivestockKeeper2() {
       const apiUrl = 'https://api.ranchid.app/api/enumerator/add_livestock_keeper';
       console.log('Making request to:', apiUrl);
       console.log('Request method: POST');
-      
+
       // Log the form data being sent
       console.log('FormData entries:');
       if (formData._parts) {
@@ -301,7 +300,7 @@ export default function LivestockKeeper2() {
       console.log('Initiating fetch request...');
       let response;
       let responseData;
-      
+
       try {
         // Get token from AsyncStorage
         const token = await AsyncStorage.getItem('userToken');
@@ -322,7 +321,7 @@ export default function LivestockKeeper2() {
           },
           body: formData,
         };
-        
+
         // Log fetch options with redacted token
         console.log('Fetch options:', {
           method: 'POST',
@@ -340,44 +339,44 @@ export default function LivestockKeeper2() {
           console.log('Request timed out after 30 seconds');
           controller.abort();
         }, 30000);
-        
+
         fetchOptions.signal = controller.signal;
-        
+
         console.log('Sending request...');
         const startTime = Date.now();
-        
+
         response = await fetch(apiUrl, fetchOptions);
-        
+
         clearTimeout(timeoutId);
         const endTime = Date.now();
         const responseTime = endTime - startTime;
         console.log(`Request completed in ${responseTime}ms`);
         console.log('Response status:', response.status, response.statusText);
-        
+
         // Log response headers
         console.log('Response headers:');
         response.headers.forEach((value, key) => {
           console.log(`  ${key}: ${value}`);
         });
-        
+
         // Get response as text first
         const responseText = await response.text();
         console.log('Raw response text length:', responseText.length);
         console.log('Response text (first 500 chars):', responseText.substring(0, 500));
-        
+
         // Try to parse as JSON if possible
         try {
           responseData = responseText ? JSON.parse(responseText) : {};
           console.log('Successfully parsed JSON response:', JSON.stringify(responseData, null, 2));
-          
+
           // Check for error messages in the response
           if (!response.ok) {
             let errorMessage = 'Request failed';
-            
+
             // Handle validation errors
             if (response.status === 422 && responseData.errors) {
               const errorMessages = [];
-              
+
               // Format validation errors into user-friendly messages
               Object.entries(responseData.errors).forEach(([field, errors]) => {
                 errors.forEach(error => {
@@ -392,12 +391,12 @@ export default function LivestockKeeper2() {
                   }
                 });
               });
-              
+
               errorMessage = errorMessages.join('\n');
             } else {
               errorMessage = responseData.message || responseData.error || 'Request failed';
             }
-            
+
             console.error('API request failed with status:', response.status);
             console.error('Response data:', responseData);
             throw new Error(errorMessage);
@@ -415,9 +414,9 @@ export default function LivestockKeeper2() {
       if (!response.ok) {
         console.error('API request failed with status:', response.status);
         console.error('Response data:', responseData);
-        
+
         let errorMessage = `HTTP error! status: ${response.status}`;
-        
+
         if (responseData && responseData.message) {
           errorMessage = responseData.message;
           console.error('Error from server:', errorMessage);
@@ -429,13 +428,13 @@ export default function LivestockKeeper2() {
           errorMessage = `Validation failed:\n${errorMessages}`;
           console.error('Validation errors:', errorMessages);
         }
-        
+
         throw new Error(errorMessage);
       }
 
       console.log('Form submitted successfully!');
       console.log('Response data:', responseData);
-      
+
       // Clear the step 1 data from storage
       try {
         await AsyncStorage.removeItem('livestockKeeperStep1');
@@ -461,33 +460,33 @@ export default function LivestockKeeper2() {
         message: error.message,
         code: error.code,
         type: typeof error,
-        isNetworkError: error.message?.includes('Network request failed') || 
-                       error.message?.includes('Failed to fetch') ||
-                       error.name === 'TypeError',
+        isNetworkError: error.message?.includes('Network request failed') ||
+          error.message?.includes('Failed to fetch') ||
+          error.name === 'TypeError',
         isAbort: error.name === 'AbortError',
         isTimeout: error.message?.includes('timeout') || error.code === 'ECONNABORTED',
-        isAuthError: error.message?.includes('401') || 
-                    error.message?.toLowerCase().includes('unauthorized') ||
-                    error.status === 401,
+        isAuthError: error.message?.includes('401') ||
+          error.message?.toLowerCase().includes('unauthorized') ||
+          error.status === 401,
         responseStatus: response?.status,
         responseStatusText: response?.statusText,
         responseHeaders: response?.headers ? Object.fromEntries(response.headers.entries()) : null,
         responseData: responseData || null,
       };
-      
+
       console.error('Error in form submission:', JSON.stringify(errorDetails, null, 2));
-      
+
       // More specific error messages based on error type
       let errorMessage = 'An unexpected error occurred';
       let shouldLogout = false;
-      
+
       if (errorDetails.isNetworkError) {
         errorMessage = 'Could not connect to the server. Please check your internet connection and try again.';
       } else if (errorDetails.isAbort || errorDetails.isTimeout) {
         errorMessage = 'The request took too long. Your internet connection might be slow or unstable.';
-      } else if (errorDetails.isAuthError || 
-                errorDetails.responseStatus === 401 || 
-                error.message?.includes('Unauthenticated')) {
+      } else if (errorDetails.isAuthError ||
+        errorDetails.responseStatus === 401 ||
+        error.message?.includes('Unauthenticated')) {
         errorMessage = 'Your session has expired. Please login again.';
         shouldLogout = true;
       } else if (errorDetails.responseStatus) {
@@ -514,7 +513,7 @@ export default function LivestockKeeper2() {
             errorMessage = `An error occurred (${errorDetails.responseStatus}). Please try again.`;
         }
       }
-      
+
       // If we have a more specific message from the server, use it
       if (errorDetails.responseData?.message) {
         errorMessage = errorDetails.responseData.message;
@@ -522,7 +521,7 @@ export default function LivestockKeeper2() {
 
       console.log('Showing error to user:', errorMessage);
       Alert.alert('Error', errorMessage);
-      
+
       // Handle logout if needed (after showing the error)
       if (shouldLogout) {
         try {
@@ -612,7 +611,7 @@ export default function LivestockKeeper2() {
           />
           {errors.next_of_kin ? <Text className="text-red-500 text-xs mt-1">{errors.next_of_kin}</Text> : null}
         </View>
-        
+
         <View className='mt-4'>
           <InputField
             label="Next of Kin Phone Number"
@@ -625,7 +624,7 @@ export default function LivestockKeeper2() {
           />
           {errors.next_of_kin_number ? <Text className="text-red-500 text-xs mt-1">{errors.next_of_kin_number}</Text> : null}
         </View>
-        
+
         <View className='mt-4'>
           <Text className='text-[#414141] text-[14px] font-semibold mb-1'>ID Document Type</Text>
           <View className={`border ${errors.id_doc_type ? 'border-red-500' : 'border-gray-300'} rounded-lg bg-white`}>
@@ -646,7 +645,7 @@ export default function LivestockKeeper2() {
           </View>
           {errors.id_doc_type ? <Text className="text-red-500 text-xs mt-1">{errors.id_doc_type}</Text> : null}
         </View>
-        
+
         <View className='mt-4'>
           <InputField
             label="ID Document Number"
@@ -658,7 +657,7 @@ export default function LivestockKeeper2() {
           />
           {errors.prof_id_doc ? <Text className="text-red-500 text-xs mt-1">{errors.prof_id_doc}</Text> : null}
         </View>
-        
+
         <View className='mt-4 mb-8'>
           <Text className='text-[#414141] text-[14px] font-semibold mb-1'>Farm Location</Text>
           <View className={`border ${errors.farm_location && !showOtherLocation ? 'border-red-500' : 'border-gray-300'} rounded-lg bg-white`}>
@@ -673,7 +672,7 @@ export default function LivestockKeeper2() {
               ))}
             </Picker>
           </View>
-          
+
           {showOtherLocation && (
             <View className='mt-8'>
               <InputField
@@ -687,7 +686,7 @@ export default function LivestockKeeper2() {
               />
             </View>
           )}
-          
+
           {errors.farm_location && !showOtherLocation ? (
             <Text className="text-red-500 text-xs mt-1">{errors.farm_location}</Text>
           ) : null}
@@ -696,7 +695,7 @@ export default function LivestockKeeper2() {
         <View style={styles.container}>
           {!image ? (
             <TouchableOpacity style={styles.captureButton} onPress={handleCapturePortrait}>
-              <Camera size={32} color="#4A4A4A" />
+              <Ionicons name="camera-outline" size={32} color="#4A4A4A" />
               <Text style={styles.captureText}>Capture Portrait</Text>
             </TouchableOpacity>
           ) : (

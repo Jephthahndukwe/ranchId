@@ -7,10 +7,9 @@ import CancelButton from '../../../components/CancelButton';
 import CustomButton from '../../../components/CustomButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from '@react-native-picker/picker';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import { Camera } from 'lucide-react-native';
 
 export default function LivestockOwner2() {
   const navigation = useNavigation();
@@ -570,7 +569,7 @@ export default function LivestockOwner2() {
         <View style={styles.container}>
           {!image ? (
             <TouchableOpacity style={styles.captureButton} onPress={handleCapturePortrait}>
-              <Camera size={32} color="#4A4A4A" />
+              <Ionicons name="camera-outline" size={32} color="#4A4A4A" />
               <Text style={styles.captureText}>Capture Portrait</Text>
             </TouchableOpacity>
           ) : (

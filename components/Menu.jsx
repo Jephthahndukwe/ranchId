@@ -144,7 +144,7 @@ const Menu = ({ isOpen, onClose }) => {
                             <Text className='text-[#282828] text-[18px] font-semibold'>Register</Text>
                         </TouchableOpacity>
                         <View className='border border-[#EDEBE7] w-full mt-5' />
-                        <TouchableOpacity className='flex-row items-center gap-3 mt-6 px-7'>
+                        <TouchableOpacity className='flex-row items-center gap-3 mt-6 px-7' onPress={() => router.push('/(tags)')}>
                             <SimpleLineIcons name="tag" size={24} color="black" />
                             <Text className='text-[#282828] text-[18px] font-semibold'>Tags</Text>
                         </TouchableOpacity>
@@ -152,6 +152,11 @@ const Menu = ({ isOpen, onClose }) => {
                         <TouchableOpacity className='flex-row items-center gap-3 mt-6 px-7'>
                             <AntDesign name="disconnect" size={24} color="black" />
                             <Text className='text-[#282828] text-[18px] font-semibold'>Offline Functions</Text>
+                        </TouchableOpacity>
+                        <View className='border border-[#EDEBE7] w-full mt-5' />
+                        <TouchableOpacity className='flex-row items-center gap-3 mt-6 px-7' onPress={() => router.push('/(reports)')}>
+                            <AntDesign name="disconnect" size={24} color="black" />
+                            <Text className='text-[#282828] text-[18px] font-semibold'>Reports</Text>
                         </TouchableOpacity>
                         <View className='border border-[#EDEBE7] w-full mt-5' />
                         <TouchableOpacity 
