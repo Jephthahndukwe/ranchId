@@ -30,7 +30,7 @@ const AuthLayout = () => {
             headerShown: false
           }}
         />
-         <Stack.Screen
+        <Stack.Screen
           name='tagLiveStock/liveStockDetails'
           options={{
             headerShown: false
@@ -44,6 +44,12 @@ const AuthLayout = () => {
         />
         <Stack.Screen
           name='tagLiveStock/previewDetails'
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name='tagLiveStock/success'
           options={{
             headerShown: false
           }}

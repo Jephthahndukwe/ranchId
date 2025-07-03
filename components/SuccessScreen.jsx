@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
 import { router } from 'expo-router';
 import { AntDesign } from '@expo/vector-icons';

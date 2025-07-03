@@ -12,36 +12,43 @@ import {
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
 
 export default function TagLivestockScreen() {
     const { completeData } = useLocalSearchParams();
     const [formData, setFormData] = useState({});
 
     useEffect(() => {
-        // Load complete data from AsyncStorage when component mounts
-        const loadCompleteData = async () => {
+        const loadFormData = async () => {
             try {
+                // First try to get from URL params
+                if (completeData) {
+                    setFormData(JSON.parse(completeData));
+                    return;
+                }
+                
+                // If not in URL params, try AsyncStorage
                 const data = await AsyncStorage.getItem('completeData');
                 if (data) {
                     const parsedData = JSON.parse(data);
                     setFormData(parsedData);
-                    console.log('Loaded data:', parsedData);
                 }
             } catch (error) {
-                console.error('Error loading complete data:', error);
-                Alert.alert('Error', 'Failed to load data');
+                console.error('Error loading form data:', error);
             }
         };
-
-        loadCompleteData();
-    }, []);
+        loadFormData();
+    }, [completeData]);
 
     const handleSubmit = async () => {
         // Clear AsyncStorage when submission is successful
         try {
+            const tagId = formData.tagId || formData.scannedTagId;
             await AsyncStorage.multiRemove(['scannedTagId', 'livestockData', 'completeData']);
-            Alert.alert('Success', 'Livestock tagging completed successfully!');
-            router.push('/(auth)/tagLiveStock');
+            router.push({
+                pathname: '/(auth)/tagLiveStock/success',
+                params: { tagId }
+            });
         } catch (error) {
             console.error('Error clearing AsyncStorage:', error);
             Alert.alert('Error', 'Failed to clear data');
